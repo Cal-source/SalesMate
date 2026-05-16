@@ -1,3 +1,4 @@
+import AppShell from "@/components/dashboard/AppShell";
 export default function Dashboard() {
   return (
     <main className="flex min-h-screen">
