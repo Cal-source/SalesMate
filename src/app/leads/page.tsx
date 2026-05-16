@@ -2,24 +2,79 @@
 
 import { useState } from "react";
 import AppShell from "@/components/dashboard/AppShell";
+import { leads as initialLeads, addLead, Lead } from "@/lib/store";
 
 export default function LeadsPage() {
+  const [leads, setLeads] = useState(initialLeads);
+
+  const [name, setName] = useState("");
+  const [contact, setContact] = useState("");
+  const [source, setSource] = useState("");
+
+  const handleAddLead = () => {
+    if (!name || !contact) return;
+
+    const newLead: Lead = {
+      id: Date.now().toString(),
+      name,
+      contact,
+      source: source || "Manual",
+      status: "New",
+    };
+
+    addLead(newLead);
+    setLeads([...leads, newLead]);
+
+    setName("");
+    setContact("");
+    setSource("");
+  };
+
   return (
     <AppShell>
 
       {/* Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Leads</h1>
+      </div>
 
-        <button className="bg-[#2563EB] hover:bg-blue-500 transition px-4 py-2 rounded-lg text-sm font-medium">
+      {/* Add Lead Form */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+
+        <input
+          placeholder="Name"
+          className="bg-white/5 border border-white/10 p-2 rounded-lg"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          placeholder="Contact"
+          className="bg-white/5 border border-white/10 p-2 rounded-lg"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
+        />
+
+        <input
+          placeholder="Source (Instagram, WhatsApp...)"
+          className="bg-white/5 border border-white/10 p-2 rounded-lg"
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+        />
+
+        <button
+          onClick={handleAddLead}
+          className="bg-[#2563EB] hover:bg-blue-500 transition px-4 py-2 rounded-lg"
+        >
           + Add Lead
         </button>
+
       </div>
 
       {/* Leads Table */}
       <div className="mt-6 bg-white/5 border border-white/10 rounded-xl overflow-hidden">
 
-        {/* Table Header */}
+        {/* Header */}
         <div className="grid grid-cols-5 text-gray-400 text-sm p-4 border-b border-white/10">
           <span>Name</span>
           <span>Contact</span>
@@ -28,13 +83,43 @@ export default function LeadsPage() {
           <span>Action</span>
         </div>
 
-        {/* Sample Lead Row */}
-        <div className="grid grid-cols-5 p-4 items-center text-sm">
+        {/* Dynamic Rows */}
+        {leads.map((lead) => (
+          <div
+            key={lead.id}
+            className="grid grid-cols-5 p-4 items-center text-sm border-t border-white/10"
+          >
+            <span>{lead.name}</span>
+            <span>{lead.contact}</span>
+            <span>{lead.source}</span>
 
-          <span>John Doe</span>
-          <span>johndoe@email.com</span>
-          <span>Instagram</span>
+            <span>
+              <span
+                className={`px-2 py-1 rounded-md text-xs ${
+                  lead.status === "New"
+                    ? "bg-yellow-500/20 text-yellow-400"
+                    : lead.status === "Won"
+                    ? "bg-green-500/20 text-green-400"
+                    : lead.status === "Lost"
+                    ? "bg-red-500/20 text-red-400"
+                    : "bg-blue-500/20 text-blue-400"
+                }`}
+              >
+                {lead.status}
+              </span>
+            </span>
 
+            <span className="text-blue-400 cursor-pointer">
+              View
+            </span>
+          </div>
+        ))}
+
+      </div>
+
+    </AppShell>
+  );
+}
           <span>
             <span className="bg-yellow-500/20 text-yellow-400 px-2 py-1 rounded-md text-xs">
               New
