@@ -28,3 +28,9 @@ export let leads: Lead[] = [
 export function addLead(lead: Lead) {
   leads.push(lead);
 }
+
+export function updateLeadStatus(id: string, status: LeadStatus) {
+  leads = leads.map((lead) =>
+    lead.id === id ? { ...lead, status } : lead
+  );
+}
