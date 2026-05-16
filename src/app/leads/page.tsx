@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import AppShell from "@/components/dashboard/AppShell";
 import {
@@ -54,7 +55,111 @@ export default function LeadsPage() {
         <h1 className="text-2xl font-bold">Lead Pipeline</h1>
       </div>
 
-      {/* Add Lead */}
+      {/* Add Lead Form */}
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
+
+        <input
+          placeholder="Name"
+          className="bg-white/5 border border-white/10 p-2 rounded-lg"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <input
+          placeholder="Contact"
+          className="bg-white/5 border border-white/10 p-2 rounded-lg"
+          value={contact}
+          onChange={(e) => setContact(e.target.value)}
+        />
+
+        <input
+          placeholder="Source (Instagram, WhatsApp...)"
+          className="bg-white/5 border border-white/10 p-2 rounded-lg"
+          value={source}
+          onChange={(e) => setSource(e.target.value)}
+        />
+
+        <button
+          onClick={handleAddLead}
+          className="bg-[#2563EB] hover:bg-blue-500 transition px-4 py-2 rounded-lg"
+        >
+          + Add Lead
+        </button>
+
+      </div>
+
+      {/* Leads Table */}
+      <div className="mt-6 bg-white/5 border border-white/10 rounded-xl overflow-hidden">
+
+        {/* Table Header */}
+        <div className="grid grid-cols-6 text-gray-400 text-sm p-4 border-b border-white/10">
+          <span>Name</span>
+          <span>Contact</span>
+          <span>Source</span>
+          <span>Status</span>
+          <span>Change</span>
+          <span>Action</span>
+        </div>
+
+        {/* Lead Rows */}
+        {leads.map((lead) => (
+          <div
+            key={lead.id}
+            className="grid grid-cols-6 p-4 items-center text-sm border-t border-white/10"
+          >
+            <span>{lead.name}</span>
+            <span>{lead.contact}</span>
+            <span>{lead.source}</span>
+
+            {/* Status Badge */}
+            <span>
+              <span
+                className={`px-2 py-1 rounded-md text-xs ${
+                  lead.status === "New"
+                    ? "bg-yellow-500/20 text-yellow-400"
+                    : lead.status === "Contacted"
+                    ? "bg-blue-500/20 text-blue-400"
+                    : lead.status === "Won"
+                    ? "bg-green-500/20 text-green-400"
+                    : "bg-red-500/20 text-red-400"
+                }`}
+              >
+                {lead.status}
+              </span>
+            </span>
+
+            {/* Status Dropdown */}
+            <select
+              value={lead.status}
+              onChange={(e) =>
+                handleStatusChange(
+                  lead.id,
+                  e.target.value as LeadStatus
+                )
+              }
+              className="bg-black/30 border border-white/10 p-1 rounded-md text-sm"
+            >
+              <option value="New">New</option>
+              <option value="Contacted">Contacted</option>
+              <option value="Won">Won</option>
+              <option value="Lost">Lost</option>
+            </select>
+
+            {/* View Lead Page */}
+            <Link
+              href={`/leads/${lead.id}`}
+              className="text-blue-400 hover:text-blue-300"
+            >
+              View
+            </Link>
+          </div>
+        ))}
+
+      </div>
+
+    </AppShell>
+  );
+        }      {/* Add Lead */}
       <div className="mt-6 grid grid-cols-1 md:grid-cols-4 gap-3">
 
         <input
@@ -144,9 +249,9 @@ export default function LeadsPage() {
               <option value="Lost">Lost</option>
             </select>
 
-            <span className="text-blue-400 cursor-pointer">
+            <Link href={`/leads/${lead.id}`} className="text-blue-400">
   View
-</span>
+</Link>
           </div>
         ))}
 
