@@ -6,6 +6,7 @@ export interface Lead {
   contact: string;
   source: string;
   status: LeadStatus;
+  notes?: string;
 }
 
 export let leads: Lead[] = [
@@ -15,6 +16,7 @@ export let leads: Lead[] = [
     contact: "johndoe@email.com",
     source: "Instagram",
     status: "New",
+    notes: "Interested in pricing",
   },
   {
     id: "2",
@@ -22,6 +24,7 @@ export let leads: Lead[] = [
     contact: "sarah@email.com",
     source: "WhatsApp",
     status: "Won",
+    notes: "Closed deal last week",
   },
 ];
 
@@ -32,5 +35,11 @@ export function addLead(lead: Lead) {
 export function updateLeadStatus(id: string, status: LeadStatus) {
   leads = leads.map((lead) =>
     lead.id === id ? { ...lead, status } : lead
+  );
+}
+
+export function updateLeadNotes(id: string, notes: string) {
+  leads = leads.map((lead) =>
+    lead.id === id ? { ...lead, notes } : lead
   );
 }
