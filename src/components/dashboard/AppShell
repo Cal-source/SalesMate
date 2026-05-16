@@ -1,0 +1,34 @@
+import React from "react";
+
+export default function AppShell({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex min-h-screen">
+
+      {/* Sidebar */}
+      <aside className="w-16 bg-[#0A0F1C] border-r border-white/10 flex flex-col items-center py-6 gap-8">
+
+        {/* Logo placeholder */}
+        <div className="w-8 h-8 rounded-lg bg-[#2563EB]" />
+
+        {/* Nav icons */}
+        <nav className="flex flex-col gap-6 text-gray-400 text-lg mt-6">
+          <span>📊</span>
+          <span>👥</span>
+          <span>💰</span>
+          <span>⚙️</span>
+        </nav>
+
+      </aside>
+
+      {/* Main Content */}
+      <main className="flex-1 p-6">
+        {children}
+      </main>
+
+    </div>
+  );
+}
