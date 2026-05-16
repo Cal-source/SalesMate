@@ -9,32 +9,44 @@ export interface Lead {
   notes?: string;
 }
 
+export interface Sale {
+  id: string;
+  leadId: string;
+  leadName: string;
+  amount: number;
+  date: string;
+}
+
 export let leads: Lead[] = [
   {
     id: "1",
     name: "John Doe",
     contact: "johndoe@email.com",
     source: "Instagram",
-    status: "New",
-    notes: "Interested in pricing",
+    status: "Won",
   },
   {
     id: "2",
     name: "Sarah Mark",
     contact: "sarah@email.com",
     source: "WhatsApp",
-    status: "Won",
-    notes: "Closed deal last week",
+    status: "Contacted",
   },
 ];
 
-export function addLead(lead: Lead) {
-  leads.push(lead);
-}
+export let sales: Sale[] = [
+  {
+    id: "s1",
+    leadId: "1",
+    leadName: "John Doe",
+    amount: 200,
+    date: "2026-01-01",
+  },
+];
 
-export function updateLeadStatus(id: string, status: LeadStatus) {
-  leads = leads.map((lead) =>
-    lead.id === id ? { ...lead, status } : lead
+export function addSale(sale: Sale) {
+  sales.push(sale);
+}    lead.id === id ? { ...lead, status } : lead
   );
 }
 
