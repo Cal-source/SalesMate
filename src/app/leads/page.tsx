@@ -145,8 +145,8 @@ export default function LeadsPage() {
             </select>
 
             <span className="text-blue-400 cursor-pointer">
-              View
-            </span>
+  View
+</span>
           </div>
         ))}
 
